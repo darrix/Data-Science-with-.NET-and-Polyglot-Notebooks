@@ -1,0 +1,96 @@
+#!meta
+
+{"kernelInfo":{"defaultKernelName":"csharp","items":[{"aliases":[],"name":"csharp"}]}}
+
+#!markdown
+
+# Working with DataFrames in F#
+
+#!fsharp
+
+#r "nuget:Microsoft.Data.Analysis,0.21.1"
+
+#!fsharp
+
+open Microsoft.Data.Analysis
+let dfPlayers = 
+    DataFrame.LoadCsv("Players.csv")
+dfPlayers
+
+#!fsharp
+
+dfPlayers.Head 5
+
+#!fsharp
+
+dfPlayers.Tail 5
+
+#!fsharp
+
+dfPlayers.Sample 5
+
+#!fsharp
+
+dfPlayers.Rows.GetType()
+
+#!fsharp
+
+let row = dfPlayers.Rows.[4]
+row
+
+#!fsharp
+
+let row2 = dfPlayers.Rows[5]
+row2
+
+#!fsharp
+
+dfPlayers.Rows[4]["height_in_cm"]
+
+#!fsharp
+
+dfPlayers.Columns.GetType()
+
+#!fsharp
+
+dfPlayers.Columns
+
+#!fsharp
+
+dfPlayers.Columns |> Seq.map (fun c -> c.Name)
+
+#!fsharp
+
+dfPlayers["position"]
+
+#!fsharp
+
+dfPlayers["position"]
+
+#!fsharp
+
+dfPlayers.Columns.["position"]
+
+#!fsharp
+
+dfPlayers["position"]
+
+#!fsharp
+
+dfPlayers["position"].Info()
+
+#!fsharp
+
+dfPlayers["position"].HasDescription()
+
+#!fsharp
+
+dfPlayers["height_in_cm"].Info()
+
+#!fsharp
+
+dfPlayers["height_in_cm"]
+
+#!fsharp
+
+dfPlayers["height_in_cm"].ValueCounts()
