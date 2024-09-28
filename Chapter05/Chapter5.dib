@@ -51,13 +51,21 @@ df["market_value_in_eur"].Description()
 
 #!fsharp
 
-let sortedValues = df["market_value_in_eur"] 
-                |> Seq.cast<single>
-                |> Seq.map float
-                |> Array.ofSeq
-                |> Array.sort
+let sortedValues = df["market_value_in_eur"]    // here we have a SingleDataFrameColumn but we need to convert it to a sequence of single values
+                |> Seq.cast<single>             // cast the column to a sequence of single values
+                |> Seq.map float                // convert the single values to float (what are the differences between a C# single and an F# float?)
+                |> Array.ofSeq                  // convert the sequence to an array
+                |> Array.sort                   // sort the array
 
 sortedValues
+
+#!markdown
+
+In summary, float in C# is single-precision, while float in F# is double-precision
+
+#!fsharp
+
+df["market_value_in_eur"].GetType()
 
 #!markdown
 
@@ -65,7 +73,7 @@ sortedValues
 
 #!fsharp
 
-#r "nuget:MathNet.Numerics,5.0.0"
+#r "nuget:MathNet.Numerics,5.0.0"    // since F# float is a double, MathNet.Numerics is more precise with it than with a C# single
 
 #!fsharp
 
@@ -90,6 +98,14 @@ SortedArrayStatistics.LowerQuartile(sortedValues)
 #!fsharp
 
 SortedArrayStatistics.UpperQuartile(sortedValues)
+
+#!fsharp
+
+SortedArrayStatistics.Median(sortedValues)
+
+#!fsharp
+
+SortedArrayStatistics.Quantile(sortedValues, 0.25)
 
 #!markdown
 
@@ -118,7 +134,7 @@ open Microsoft.DotNet.Interactive.Formatting
 // Setup a custom formatter to display plots as images
 Formatter.Register<ScottPlot.Plot>(
     (fun (plot: ScottPlot.Plot) (writer: TextWriter) ->
-        writer.Write(plot.GetImageHtml(500, 200))),
+        writer.Write(plot.GetImageHtml(1000, 400))),
     mimeType = "text/html"
 )
 
@@ -140,6 +156,10 @@ plot.Add.Box(new Box(
 ))
 
 plot
+
+#!fsharp
+
+sortedValues |> Array.min
 
 #!markdown
 
